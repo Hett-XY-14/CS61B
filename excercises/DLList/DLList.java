@@ -1,4 +1,4 @@
-public class SLList {
+public class DLList {
     private  class IntNode {
         public int item;
         public IntNode next;
@@ -16,12 +16,12 @@ public class SLList {
     private IntNode last;
 
 /**	C r e a t e s  a n  e m p t y  S L L i s t	*/
-    public SLList() {
+    public DLList() {
         sentinel = new IntNode(67, null, null);
         size = 0;
     }
 
-    public SLList(int x) {
+    public DLList(int x) {
         sentinel = new IntNode(67, null, null);
 	sentinel.next = new IntNode(x, null, sentinel);
         last = sentinel.next;
@@ -100,7 +100,7 @@ public class SLList {
 /*	M  A  I  N    M  E  T  H  O  D	*/
 
     public static void main(String[] args) {
-        SLList L = new SLList(10)  ;
+        DLList L = new DLList(10)  ;
         /*System.out.println(L);*/
         L.addFirst(12);
         System.out.println(L.getFirst());
