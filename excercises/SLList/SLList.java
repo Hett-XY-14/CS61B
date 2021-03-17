@@ -2,32 +2,36 @@ public class SLList {
     private  class IntNode {
         public int item;
         public IntNode next;
+        public IntNode previous;
 
-        public IntNode(int i, IntNode n) {
+        public IntNode(int i, IntNode n, IntNode e) {
             item = i;
             next = n;
+            previous = e;
         }
     }
 
     private IntNode sentinel;
     private int size;
+    private IntNode last;
 
 /**	C r e a t e s  a n  e m p t y  S L L i s t	*/
     public SLList() {
-        sentinel = new IntNode(67, null);
+        sentinel = new IntNode(67, null, null);
         size = 0;
     }
 
     public SLList(int x) {
-        sentinel = new IntNode(67, null);
-	sentinel.next = new IntNode(x, null);
+        sentinel = new IntNode(67, null, null);
+	sentinel.next = new IntNode(x, null, sentinel);
+        last = sentinel.next;
         size = 1;
     }
 
 /*	A  D  D    F  I  R  S  T	*/
 
     public void addFirst(int x) {
-        sentinel.next = new IntNode(x, sentinel.next);
+        sentinel.next = new IntNode(x, sentinel.next, sentinel);
         size += 1;
     }
 
@@ -39,7 +43,8 @@ public class SLList {
     
     private void addLastPrivate(IntNode p, int x) {
         if (p.next == null) {
-            p.next = new IntNode(x, null);
+            p.next = new IntNode(x, null, p);
+            last = p.next;
             size += 1;
         }
         else {
@@ -48,7 +53,7 @@ public class SLList {
     }
     
     public void addLast(int x) {
-        addLastPrivate(sentinel, x);
+        addLastPrivate(last, x);
     }
 
 /*	G  E  T    L  A  S  T	*/
@@ -65,12 +70,30 @@ public class SLList {
     } 
 
     public int getLast() {
-        return getLast(sentinel.next);
+        return getLast(last);
+    }
+
+/*	R E M O V E   L A S T	*/
+
+    private void removeLast(IntNode p) {
+        IntNode pointer = p.previous.previous;
+        last = p.previous;
+        last.next = null;
+        last.previous = pointer;
+        size -= 1;
+        System.out.println("last item removed successfully");
+        System.out.println("current last node: " + last.item);
+        System.out.println("current previous node: " + last.previous.item);
+    }
+
+    public void removeLast() {
+        removeLast(last);
     }
 
 /*	G  E  T    S  I  Z  E	*/
     
     public int size() {
+        System.out.println("List Size: "+ size);
         return size;
     }
 
@@ -82,7 +105,11 @@ public class SLList {
         L.addFirst(12);
         System.out.println(L.getFirst());
         L.addLast(3);
+        L.addLast(4);
+        L.addLast(5);
         System.out.println(L.getLast());
+        System.out.println(L.size());
+        L.removeLast();
         System.out.println(L.size());
     }
 }
