@@ -68,9 +68,32 @@ public class AListTest {
         for (int i = 0; i < N; i += 1) {
             L.addLast(L.get(i));
         }
+
+    }
+
+    /** Test insertion in a given index */
+    @Test
+    public void testInsert() {
+        int[] expected = {300,0,0,0,0,0,300,0,0,0,0,0,3000};
+        AList L = new AList();
+        for (int i = 0; i < 10; i += 1) {
+            L.addLast(0);
+        }
+        L.insert(300, 5);
+        L.insert(300, 1999);
+        L.insert(300, 0);
+
+        for (int i = 0; i < L.size(); i += 1) {
+            System.out.print(L.items[i] + " ");
+        }
+        int[] output = new int[L.size()];
+        System.arraycopy(L.items, 0, output, 0, L.size());
+
+        assertArrayEquals(expected, output);
     }
 
     public static void main(String[] args) {
-        jh61b.junit.TestRunner.runTests("all", AListTest.class);
+        /*jh61b.junit.TestRunner.runTests("all", AListTest.class);*/
+
     }
 } 

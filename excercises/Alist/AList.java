@@ -2,7 +2,7 @@
  *  @author Henry H.
  */
 public class AList<Item> {
-    private Item[] items;
+    public Item[] items;
     private int size;
     private int factor;
     private float R;
@@ -60,5 +60,24 @@ public class AList<Item> {
         size -= 1;
         System.out.println("array length: " + items.length + " size: " + size);
         return temp;
+    }
+    /** Inserts an int item into and int[] arr at the given position
+     * returns the array
+     */
+    public Item[] insert(Item item, int position) {
+        if (position >= items.length) {
+            resize(factor);
+        }
+        if (position >= size) {
+            addLast(item);
+            return items;
+        }
+        Item[] newItems = (Item[]) new Object[items.length];
+        System.arraycopy(items, 0, newItems, 0, position);
+        newItems[position] = item;
+        System.arraycopy(items, position, newItems, position + 1, size - position);
+        items = newItems;
+        size += 1;
+        return items;
     }
 }
