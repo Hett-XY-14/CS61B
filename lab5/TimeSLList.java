@@ -18,11 +18,31 @@ public class TimeSLList {
     }
 
     public static void main(String[] args) {
-        timeGetLast();
+        timeGetLast(1000, 128000, 2, 1000);
     }
 
-    public static void timeGetLast() {
-        // TODO: YOUR CODE HERE
+    public static void timeGetLast(int start, int end, int mult, int numberOperations) {
+        List<Integer> numberOfItems = new ArrayList<>();
+        List<Double> operationTimes = new ArrayList<>();
+        List<Integer> numberOfOperations = new ArrayList<>();
+        SLList<Integer> intSLList = new SLList<>();
+
+        for (int i  = start; i <= end; i *= mult) {
+            for (int j = 1; j <= i; j += 1) {
+                intSLList.addLast(i);
+            }
+            Stopwatch timer = new Stopwatch();
+            for (int k  = 0; k <= numberOperations; k += 1) {
+                intSLList.getLast();
+            }
+            double operationTime = timer.elapsedTime();
+
+            numberOfItems.add(i);
+            operationTimes.add(operationTime);
+            numberOfOperations.add(numberOperations);
+        }
+
+        printTimingTable(numberOfItems, operationTimes, numberOfOperations);
     }
 
 }
