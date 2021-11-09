@@ -1,3 +1,9 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package unionfind;
+
 import java.util.ArrayList;
 
 public class UnionFind {
@@ -15,7 +21,9 @@ public class UnionFind {
 
     /* Throws an exception if v1 is not a valid vertex. */
     private void validate(int v1) {
-        // TODO
+        if (v1 < 0 || v1 > parent.length) {
+            throw new IllegalArgumentException("Not a valid vertex!");
+        }
     }
 
     /* Returns the size of the set v1 belongs to. */
@@ -32,8 +40,8 @@ public class UnionFind {
 
     /* Returns true if nodes v1 and v2 are connected. */
     public boolean isConnected(int v1, int v2) {
-        // TODO
-        return false;
+        pathCompression(v1,v2);
+        return find(v1) == find(v2);
     }
 
     /* Connects two elements v1 and v2 together. v1 and v2 can be any valid 
@@ -42,14 +50,65 @@ public class UnionFind {
        vertex with itself or vertices that are already connected should not 
        change the sets but may alter the internal structure of the data. */
     public void connect(int v1, int v2) {
-        // TODO
+        // First of all, we need to validate the inputs
+        validate(v1);
+        validate(v2);
+        //let's connect both numbers
+        int rootV1 = find(v1);
+        int rootV2 = find(v2);
+        int sizeV1 = parent[rootV1];
+        int sizeV2 = parent[rootV2];
+
+        if (sizeV1 < sizeV2) {
+            parent[rootV2] = rootV1;
+            parent[rootV1] = sizeV1 + sizeV2;
+        } else {
+            parent[rootV1] = rootV2;
+            parent[rootV2] = sizeV1 + sizeV2;
+        }
+    }
+    
+    //path compression
+    public void pathCompression(int v1, int v2) {
+        if (isConnected(v1, v2)) {
+            parent[v1] = find(v1);
+            parent[v2] = find(v2);
+        }
     }
 
     /* Returns the root of the set v1 belongs to. Path-compression is employed
        allowing for fast search-time. */
     public int find(int v1) {
-        // TODO
-        return -1;
+        if (parent[v1] < 0) {
+            return v1;
+        } else {
+            return find(parent[v1]);
+        }
     }
 
+    public void printArray() {
+        for (int element : parent ) {
+            System.out.println(element);
+        }
+    }
+
+    public static void main(String[] args) {
+        UnionFind test = new UnionFind(10);
+        
+        //test.printArray();
+        
+        test.connect(1,0);
+        test.connect(4,2);
+        test.connect(5,4);
+        test.connect(3,2);
+        test.connect(8,6);
+        test.connect(7,6);
+
+        test.printArray();
+        
+        test.connect(5,7);
+        
+        test.printArray();
+    }
 }
+
