@@ -1,5 +1,7 @@
 package es.datastructur.synthesizer;
 
+import static java.lang.Math.round;
+
 //Note: This file will not compile until you complete task 1 (BoundedQueue).
 public class GuitarString {
     /** Constants. Do not change. In case you're curious, the keyword final
@@ -17,8 +19,18 @@ public class GuitarString {
         //       cast the result of this division operation into an int. For
         //       better accuracy, use the Math.round() function before casting.
         //       Your should initially fill your buffer array with zeros.
+        int capacity = (int) Math.round(SR/frequency);
+        buffer = new ArrayRingBuffer<Double>(capacity);
+        for (int i = 0; i < buffer.capacity(); i += 1) {
+            buffer.enqueue(0.0);
+        }
     }
 
+    /* toString method of the class */
+    @Override
+    public String toString() {
+    return "Guitar string; \n Capacity of the buffer: " + buffer.capacity() + "\nSample: " + this.sample();
+    }
 
     /* Pluck the guitar string by replacing the buffer with white noise. */
     public void pluck() {
@@ -30,6 +42,11 @@ public class GuitarString {
         //       other. This does not mean that you need to check that the numbers
         //       are different from each other. It means you should repeatedly call
         //       Math.random() - 0.5 to generate new random numbers for each array index.
+        for ( int i = 0; i < buffer.capacity(); i += 1 ) {
+            double random = Math.random() - 0.5;
+            buffer.dequeue();
+            buffer.enqueue(random);
+        }
     }
 
     /* Advance the simulation one time step by performing one iteration of
@@ -39,12 +56,16 @@ public class GuitarString {
         // TODO: Dequeue the front sample and enqueue a new sample that is
         //       the average of the two multiplied by the DECAY factor.
         //       Do not call StdAudio.play().
+        double first = buffer.dequeue();
+        double second = buffer.peek();
+        double newSample = (first + second) / 2 * DECAY;
+        buffer.enqueue(newSample);
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
         // TODO: Return the correct thing.
-        return 0;
+        return buffer.peek();
     }
 }
     // TODO: Remove all comments that say TODO when you're done.
