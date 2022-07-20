@@ -18,7 +18,7 @@ public interface Map61B<K, V> extends Iterable<K> {
     /* Returns the number of key-value mappings in this map. */
     int size();
 
-    /* Associates the specified value with the specified key in this map. */
+    /* Associates the specified value with the specified k in this eymap. */
     void put(K key, V value);
 
     /* Returns a Set view of the keys contained in this map. Not required for Lab 7.
